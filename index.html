@@ -15,6 +15,7 @@
     --bg:#F5F7F5;
     --invite-blue:#3B7DC4;
     --orange:#E76F51;
+    --orange-dark:#B8501F;
   }
   *{box-sizing:border-box;}
   body{
@@ -217,11 +218,11 @@
   .badge.semester{background:#C0392B;color:#fff;}
   .badge.mlsgold{background:var(--gold);color:#2C1A00;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
   .badge.mlsgold:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
-  .badge.firstweek{background:var(--orange);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
+  .badge.firstweek{background:var(--orange-dark);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
   .badge.firstweek:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
   .badge.weeklytodo{background:var(--orange);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
   .badge.weeklytodo:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
-  .badge.firstweek-reminder{background:var(--orange);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
+  .badge.firstweek-reminder{background:var(--orange-dark);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
   .badge.firstweek-reminder:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
   .badge.due{background:var(--green-dark);color:#fff;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);}
   .badge.due:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
@@ -1190,7 +1191,7 @@
   <div class="note-label" id="label-feb-4"><span class="plus">+</span>Add your plans</div><div class="tag-row" id="tags-feb-4"></div>
 </div>
 <div class="day-body-cell" data-day="feb-5" onclick="openDayPopup('feb-5')">
-  <button class="badge semester" onclick="event.stopPropagation(); showInfo('Last day of Semester 1')">Last day of Semester 1</button>
+  <button class="badge semester" onclick="event.stopPropagation(); showInfo('This is the final day of Semester 1. Submit any work due today.')">Last day of Semester 1</button>
   <div class="note-label" id="label-feb-5"><span class="plus">+</span>Add your plans</div><div class="tag-row" id="tags-feb-5"></div>
 </div>
 <div class="day-body-cell weekend" data-day="feb-6" onclick="openDayPopup('feb-6')">
@@ -1898,7 +1899,7 @@
   <div class="note-label" id="label-jun-3"><span class="plus">+</span>Add your plans</div><div class="tag-row" id="tags-jun-3"></div>
 </div>
 <div class="day-body-cell" data-day="jun-4" onclick="openDayPopup('jun-4')">
-  <button class="badge semester" onclick="event.stopPropagation(); showInfo('Last day of Semester 2')">Last day of Semester 2</button>
+  <button class="badge semester" onclick="event.stopPropagation(); showInfo('This is the final day of Semester 2. Submit any work due today.')">Last day of Semester 2</button>
   <div class="note-label" id="label-jun-4"><span class="plus">+</span>Add your plans</div><div class="tag-row" id="tags-jun-4"></div>
 </div>
 <div class="day-body-cell weekend" data-day="jun-5" onclick="openDayPopup('jun-5')">
@@ -2320,12 +2321,12 @@ function updateChecklistBadges() {
 
   var fwBadges = document.querySelectorAll('.badge.firstweek');
   for (var i = 0; i < fwBadges.length; i++) {
-    fwBadges[i].textContent = fwLeft === 0 ? '\u2713 First Week To-Do Complete' : 'First Week To-Do (' + fwLeft + ' left)';
+    fwBadges[i].innerHTML = fwLeft === 0 ? '\u2713 First Week To-Do<br>Complete' : 'First Week To-Do<br>(' + fwLeft + ' left)';
   }
 
   var wkBadges = document.querySelectorAll('.badge.weeklytodo');
   for (var j = 0; j < wkBadges.length; j++) {
-    wkBadges[j].textContent = wkLeft === 0 ? '\u2713 Weekly To-Do Complete' : 'Weekly To-Do (' + wkLeft + ' left)';
+    wkBadges[j].innerHTML = wkLeft === 0 ? '\u2713 Weekly To-Do<br>Complete' : 'Weekly To-Do<br>(' + wkLeft + ' left)';
   }
 
   var fwReminders = document.querySelectorAll('.badge.firstweek-reminder');
@@ -2334,7 +2335,7 @@ function updateChecklistBadges() {
       fwReminders[k].style.display = 'none';
     } else {
       fwReminders[k].style.display = '';
-      fwReminders[k].textContent = 'First Week To-Do (' + fwLeft + ' left)';
+      fwReminders[k].innerHTML = 'First Week To-Do<br>(' + fwLeft + ' left)';
     }
   }
 }
