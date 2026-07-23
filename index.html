@@ -229,7 +229,9 @@
   .badge.checkemail{cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.15);font-size:10.5px;background:var(--invite-blue);color:#fff;}
   .badge.checkemail:active{box-shadow:0 0 0 rgba(0,0,0,0.15);transform:translateY(2px);}
   .tag-row{display:flex;flex-wrap:wrap;gap:2px;font-size:14px;line-height:1;margin-top:auto;}
-  .tag-icon-wrap{position:relative;display:inline-flex;padding:2px;}
+  .tag-icon-wrap{position:relative;display:inline-flex;padding:2px;cursor:pointer;border-radius:50%;}
+  .tag-icon-wrap:hover{background:rgba(27,67,50,0.08);}
+  .tag-icon-wrap:active{transform:scale(0.88);}
   .tag-delete{
     display:none;
     position:absolute;
@@ -246,6 +248,36 @@
     box-shadow:0 1px 2px rgba(0,0,0,0.3);
   }
   .tag-icon-wrap:hover .tag-delete{display:block;}
+  .tag-preview{
+    display:none;
+    position:absolute;
+    bottom:calc(100% + 6px);
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--green-dark);
+    color:#fff;
+    font-size:11px;
+    font-weight:600;
+    line-height:1.35;
+    padding:6px 9px;
+    border-radius:6px;
+    white-space:normal;
+    width:max-content;
+    max-width:160px;
+    text-align:center;
+    z-index:20;
+    box-shadow:0 3px 8px rgba(0,0,0,0.25);
+  }
+  .tag-preview::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:var(--green-dark);
+  }
+  .tag-icon-wrap:hover .tag-preview{display:block;}
   .popup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(27,67,50,0.55);z-index:1000;align-items:flex-end;justify-content:center;}
   .popup-overlay.open{display:flex;}
   .popup-card{background:#fff;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:16px 16px 20px;font-family:'Inter',sans-serif;}
@@ -2605,6 +2637,10 @@ function saveDayPopup() {
   closeDayPopup();
 }
 
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function updateDayDisplay(cellkey) {
   var tagRow = document.getElementById('tags-' + cellkey);
   var label = document.getElementById('label-' + cellkey);
@@ -2614,7 +2650,9 @@ function updateDayDisplay(cellkey) {
   for (var c = 0; c < CATEGORIES.length; c++) {
     var cat = CATEGORIES[c];
     if (entry[cat.key] && entry[cat.key].length > 0) {
-      tagHtml += '<span class="tag-icon-wrap" title="' + cat.label + '">' + cat.icon +
+      var previewText = escapeHtml(entry[cat.key].join(' \u2022 '));
+      tagHtml += '<span class="tag-icon-wrap">' + cat.icon +
+        '<span class="tag-preview">' + previewText + '</span>' +
         '<span class="tag-delete" onclick="event.stopPropagation(); deleteCategoryTag(\'' + cellkey + '\',\'' + cat.key + '\')">\u2715</span></span>';
       hasContent = true;
     }
